@@ -1,0 +1,111 @@
+% GALAXY  - a simple knowledge base that can be used with GIESS
+
+% top_goal where Native starts the inference.
+top_goal(X) :- galaxy(X).
+
+
+class(elliptical):-
+	shape(smooth_round).
+class(spiral):- % SA
+	shape(spiral),
+	is_barred(no).
+class(barred_spiral):- % SB
+	shape(spiral),
+	is_barred(yes).
+class(intermediate_spiral):- % SAB
+	shape(spiral),
+	is_barred(semi_barred).
+class(lenticular):-
+	shape(irregular).
+		
+galaxy(milky_way):-
+	class(barred_spiral),
+	arm_configuration(loosely_bound),
+	number_of_arms(4),
+	arm_direction(clockwise),
+	bulge(small).
+	% supercluster(virgo).
+galaxy(andromeda):-
+	class(spiral),
+	arm_configuration(medium_bound),
+	bulge(small).
+	% supercluster(virgo).
+galaxy(pin_wheel):-
+	class(intermediate_spiral),
+	arm_configuration(loosely_bound),
+	bulge(small).
+	% supercluster(virgo).
+galaxy(sombrero):-
+	class(spiral),
+	arm_configuration(tightly_bound),
+	bulge(large),
+	feature(looks_like_a_sombrero).
+	% supercluster(virgo).
+galaxy(cartwheel):-
+	class(lenticular),
+	feature(small_circled_by_large_ring).
+	% supercluster(virgo).
+galaxy(tadpole):-
+	class(barred_spiral),
+	arm_configuration(loosely_bound),
+	feature(looks_like_a_tadpole).
+galaxy(whirlpool):-
+	class(spiral),
+	arm_configuration(medium_bound),
+	number_of_arms(2),
+	arm_direction(counter_clockwise),
+	feature(companion_galaxy).
+galaxy(sculptor):-
+	class(intermediate_spiral),
+	arm_configuration(loosely_bound),
+	feature(starburst).
+galaxy(centaurus_A):-
+	class(elliptical),
+	arc_shape(circular),
+	feature(unusual_dust_lane).
+galaxy(messier_82):-
+	class(elliptical),
+	arc_shape(cigar),
+	feature(starburst).
+galaxy(messier_83):-
+	class(barred_spiral),
+	arm_configuration(loosely_bound),
+	number_of_arms(2),
+	arm_direction(clockwise),
+	feature(starburst).
+galaxy(messier_87):-
+	class(elliptical),
+	arc_shape(circular),
+	feature(bright_featureless).
+galaxy(messier_95):-
+	class(barred_spiral),
+	arm_configuration(medium_bound),
+	arm_direction(unable_to_tell),
+	bulge(large).
+galaxy(maffei_1):-
+	class(elliptical),
+	arc_shape(slightly_squished).
+	% supercluster(virgo).
+galaxy(ngc_1232):-
+	class(spiral),
+	number_of_arms(3),
+	arm_direction(clockwise).
+	% supercluster(virgo).
+
+supercluster(virgo):- cluster(fornax).
+supercluster(virgo):- cluster(virgo).
+supercluster(virgo):- cluster(eridanus).
+supercluster(virgo):- cluster(local_group).
+
+shape(X):- ask(shape,X).
+arm_direction(X):- ask(arm_direction,X).
+bulge(X):-ask(bulge,X).
+is_barred(X):-ask(is_barred,X).
+arc_shape(X):-menuask(degree_of_arc,X,[circular,slightly_squished,oval,cigar]). % [E0,E3,E5,E7] - Hubble Elliptical Classifcation
+arm_configuration(X):-menuask(arm_configuration,X,[tighly_bound,medium_bound,loosely_bound,none]). % [a,b,c,d]
+number_of_arms(X):-menuask(number_of_arms,X,[1,2,3,4,5,6]).
+feature(X):-ask(feature,X).
+	
+
+state(X) :- menuask(state,X,[massachusetts,vermont,florida,mississippi,etc]).
+province(X) :- menuask(province,X,[ontario,quebec,etc]).
